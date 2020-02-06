@@ -72,7 +72,6 @@ export default function UploadForm() {
     }
     // hide progress component
     setUploading(false);
-    console.log("RESPONSE", asolution);
   }
 
   return (

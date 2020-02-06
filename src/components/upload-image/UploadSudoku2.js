@@ -123,10 +123,7 @@ const [win, setWin] = useState("");
     };
     // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
-    console.log("GBS in formatted puzzle", gameBoardState.level)
-    console.log("GBS in formatted puzzle", gameBoardState.solved)
-    console.log("GBS in formatted puzzle", gameBoardState.original)
-    
+
     const req = {
         // time: gameBoardState.time,
         difficulty: gameBoardState.solution.level,

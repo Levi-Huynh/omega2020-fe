@@ -29,33 +29,16 @@ const EasySudoku = () => {
   
   const getFormattedPuzzle = async () => {
     const puzzle = await getRandomPuzzle();
-    const formattedPuzzle = formatPuzzle(puzzle.sudoku); // changed puzzles to puzzle.sudoku
-
-    console.log("GBS in formatted puzzle", gameBoardState)
-    console.log("Loaded puzzle in formatted puzzle", puzzle)
-    console.log("formattedPuzzle  in formatted puzzle", formattedPuzzle);
-      setGameBoardState({
-        ...gameBoardState,
-        puzzleId: puzzle.id,
-        level: puzzle.level,
-        boardState: formattedPuzzle,
-        solved: puzzle.solution,
-        original: puzzle.sudoku
-      });
+    const formattedPuzzle = formatPuzzle(puzzle.sudoku); 
+    setGameBoardState({
+      ...gameBoardState,
+      puzzleId: puzzle.id,
+      level: puzzle.level,
+      boardState: formattedPuzzle,
+      solved: puzzle.solution,
+      original: puzzle.sudoku
+    });
   };
-
-  // const [gameBoardState, setGameBoardState] = useState(
-  // {
-  //         boardState : getFormattedPuzzle(),
-  //         puzzleId: getPuzzle.id,
-  //         difficulty: getPuzzle.difficulty,
-  //         time: getPuzzle.time,
-  //         solvedPuzzleState: solvedPuzzle,
-  //         history   : [],
-  //         conflicts : new Set([])  
-  // });
-  // console.log("GBS in SUD", win)
-
   
   useEffect(() => {
     getFormattedPuzzle();
@@ -75,7 +58,6 @@ const EasySudoku = () => {
           cellId    : stringify(i, j),
           editable  : prevEditable
         };
-      console.log("newBoardState: ", prevState.newBoardState)
 
       // Now push the previous board state on the history stack
       const newHistory = getDeepCopyOfArray(prevState.history);
@@ -117,7 +99,6 @@ const EasySudoku = () => {
   // saves sudoku state (data, diffuculty, time) to backend.
   const handleSaveClick = () => {
 
-    console.log(gameBoardState);
     
     const puzzleId = gameBoardState.puzzleId;
     
@@ -142,11 +123,9 @@ const EasySudoku = () => {
       original: gameBoardState.original
     };
   
-console.log("EASY",puzzleId)
     axiosWithAuth()
       .post(`/user-puzzles/${puzzleId}`, req)
       .then(res => {
-        console.log("REQ", res);
         alert('Puzzle saved');
     });
   };
@@ -164,7 +143,6 @@ console.log("EASY",puzzleId)
     // populating rows
     for(let i=0; i<boardState.length; i++) {
       rows[i] = getDeepCopyOfArray(boardState[i]);
-      // console.log("BOX ID: ", "boxId")
       
       for(let j=0; j<boardState[i].length;j++) {
         // populating columns
@@ -189,8 +167,6 @@ console.log("EASY",puzzleId)
     const colConflicts = flatten(getConflicts(Object.values(cols)));
     const boxConflicts = flatten(getConflicts(Object.values(boxes)));
     
-    // console.log("BOX CONFLICTS1: ", boxConflicts)
-    
     const mergedConflicts = [...rowConflicts, ...colConflicts, ...boxConflicts];
     setGameBoardState({...gameBoardState, conflicts: new Set(mergedConflicts)});
     
@@ -207,8 +183,6 @@ console.log("EASY",puzzleId)
     
     // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
-    console.log("activePuzzleString", activePuzzleString);
-    console.log("WIN", win);
     
     if (mergedConflicts.length === 0){
       if (activePuzzleString === win){

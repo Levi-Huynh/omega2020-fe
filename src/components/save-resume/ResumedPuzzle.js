@@ -36,7 +36,6 @@ const ResumedPuzzle = () => {
   async function getRandomPuzzle() {
     var puzzles = await GetSavedPuzzle();
     return puzzles;   // changed puzzle.sudoku to puzzles to return all the puzzles 
-    console.log(puzzles.solved)
 
   };
 
@@ -56,8 +55,6 @@ const ResumedPuzzle = () => {
   };
 const win = gameBoardState.solved
 
-console.log(win)
-console.log(gameBoardState.solved)
 
 // Start the game here by getting a formatted puzzle
   useEffect(() => {
@@ -78,7 +75,6 @@ console.log(gameBoardState.solved)
           cellId    : stringify(i, j),
           editable  : prevEditable
         };
-      console.log("newBoardState: ", prevState.newBoardState)
 
       // Now push the previous board state on the history stack
       const newHistory = getDeepCopyOfArray(prevState.history);
@@ -122,7 +118,6 @@ console.log(gameBoardState.solved)
 
 
   const handleSaveClick = () => {
-    console.log(gameBoardState);
     
     const puzzleId = gameBoardState.puzzleId;
     
@@ -133,13 +128,11 @@ console.log(gameBoardState.solved)
     for (var i=0; i<gameBoardState.boardState.length; i++) { // for each row
       for (var j=0; j<gameBoardState.boardState.length; j++) { // for each column
         playStringNow = gameBoardState.boardState[i][j].cellValue // the value in each cell
-        playString.push(playStringNow)  
-        console.log("PLAY STRING", playStringNow)              // is pushed to playString
+        playString.push(playStringNow)  // is pushed to playString         
       };
     };
     // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
-    console.log("activePuzzleString", activePuzzleString)
     const req = {
       // time: gameBoardState.time,
       difficulty: gameBoardState.level,
@@ -155,8 +148,7 @@ console.log(gameBoardState.solved)
         console.log("REQ", res);
     });
   };
-  console.log("WIN1", win)
-console.log(gameBoardState)
+
 
   function handleVerifyClick() {
     const { boardState, setBoardState } = gameBoardState;
@@ -171,7 +163,6 @@ console.log(gameBoardState)
     // populating rows
     for(let i=0; i<boardState.length; i++) {
       rows[i] = getDeepCopyOfArray(boardState[i]);
-      // console.log("BOX ID: ", "boxId")
       
       for(let j=0; j<boardState[i].length;j++) {
         // populating columns
@@ -196,7 +187,6 @@ console.log(gameBoardState)
     const colConflicts = flatten(getConflicts(Object.values(cols)));
     const boxConflicts = flatten(getConflicts(Object.values(boxes)));
     
-    // console.log("BOX CONFLICTS1: ", boxConflicts)
     
     const mergedConflicts = [...rowConflicts, ...colConflicts, ...boxConflicts];
     setGameBoardState({...gameBoardState, conflicts: new Set(mergedConflicts)});
@@ -215,23 +205,16 @@ console.log(gameBoardState)
     // // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
  
-
-    // console.log("WIN", win);
     
-    // if (mergedConflicts.length === 0){
-    //   if (activePuzzleString === win){
-    //     return (
-    //       // build some animation for win here
-    //       alert('Congratulations! You have solved the puzzle!')
-    //       )
-        // };
-    //  };
-    // 
-   console.log("activePuzzleString", activePuzzleString);
-    console.log("GBS.BS", gameBoardState.boardState);
-    console.log(gameBoardState.boardState.length);
-
-    console.log("WIN", win);
+    if (mergedConflicts.length === 0){
+      if (activePuzzleString === win){
+        return (
+          // build some animation for win here
+          alert('Congratulations! You have solved the puzzle!')
+          )
+        };
+     };
+    
     
     if (mergedConflicts.length === 0){
       if (activePuzzleString === win){
@@ -313,7 +296,6 @@ console.log(gameBoardState)
     editable : true if this cell will be user defined, false otherwise
   }
   */  
-     console.log("BS b4 prop drill", gameBoardState.boardState)
 
      return (
        <div className = "Sudoku">

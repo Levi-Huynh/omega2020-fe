@@ -38,11 +38,7 @@ const Sudoku = () => {
   
   const getFormattedPuzzle = async () => {
     const puzzle = await getRandomPuzzle();
-    const formattedPuzzle = formatPuzzle(puzzle.sudoku); // changed puzzles to puzzle.sudoku
-
-    console.log("GBS in formatted puzzle", gameBoardState)
-    console.log("Loaded puzzle in formatted puzzle", puzzle)
-    console.log("formattedPuzzle  in formatted puzzle", formattedPuzzle);
+    const formattedPuzzle = formatPuzzle(puzzle.sudoku); 
       setGameBoardState({
         ...gameBoardState,
         puzzleId: puzzle.id,
@@ -60,7 +56,6 @@ const Sudoku = () => {
 
   function getDeepCopyOfArray(arr) {
     var now = JSON.parse(JSON.stringify(arr));
-    console.log("NOW", now)
     return now;
   };
 
@@ -115,7 +110,6 @@ const Sudoku = () => {
 
 
   const handleSaveClick = () => {
-    console.log(gameBoardState);
     
     const puzzleId = gameBoardState.puzzleId;
     
@@ -141,20 +135,13 @@ const Sudoku = () => {
       solved: gameBoardState.solved,
       original: gameBoardState.original
       };
-      console.log("WIN", win)
       
       axiosWithAuth()
       .post(`/user-puzzles/${puzzleId}`, req)
       .then(res => {
-
-        console.log("AXIOS FROM SAVE CLICK", res);
-        console.log("REQ", res);
         alert('Puzzle saved');
       });
     };
-    // console.log("REQ2", req)
-    console.log("WIN", win)
-    console.log("GBS101", gameBoardState)
 
 
   function handleVerifyClick() {
@@ -170,7 +157,6 @@ const Sudoku = () => {
     // populating rows
     for(let i=0; i<boardState.length; i++) {
       rows[i] = getDeepCopyOfArray(boardState[i]);
-      // console.log("BOX ID: ", "boxId")
       
       for(let j=0; j<boardState[i].length;j++) {
         // populating columns
@@ -195,8 +181,6 @@ const Sudoku = () => {
     const colConflicts = flatten(getConflicts(Object.values(cols)));
     const boxConflicts = flatten(getConflicts(Object.values(boxes)));
     
-    // console.log("BOX CONFLICTS1: ", boxConflicts)
-    
     const mergedConflicts = [...rowConflicts, ...colConflicts, ...boxConflicts];
     setGameBoardState({...gameBoardState, conflicts: new Set(mergedConflicts)});
     
@@ -213,8 +197,7 @@ const Sudoku = () => {
     
     // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
-    console.log("activePuzzleString", activePuzzleString);
-    console.log("WIN", win);
+
     // Check for Win when no conflicts are there
     
     if (mergedConflicts.length === 0){
@@ -295,7 +278,6 @@ const Sudoku = () => {
         editable : true if this cell will be user defined, false otherwise
       }
       */  
-     console.log("BOARD STATE BABYYYYY", gameBoardState)
 
      return (
        <div className = "Sudoku">

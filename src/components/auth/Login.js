@@ -70,7 +70,6 @@ const Login = (props) => {
     
     const handleSubmit = event => {
       event.preventDefault();
-      console.log(user);
       
       axiosLoginAuth()
         .post("/auth/login", user)
@@ -82,7 +81,6 @@ const Login = (props) => {
           props.history.push("/random")
         })
         .catch(error => {
-          console.log(error)
           alert("Email and/or Password not recognized, please try again", error)
         });
     };

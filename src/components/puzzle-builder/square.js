@@ -2,9 +2,7 @@ import React, {  } from 'react';
 import '../Sudoku.css';
 
 function Square(props) {
-
-	// console.log(props);
-
+	
 	const generateSquareContent = () => {
 		// A Square may only be edited if it's value is "."
 		const disabled = !props.editable;

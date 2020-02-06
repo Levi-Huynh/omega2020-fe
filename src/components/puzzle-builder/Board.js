@@ -3,8 +3,6 @@ import React, {  } from 'react';
 import Square from '../puzzle-builder/square';
 
 const Board = (props) => {
-    console.log("BOARD PROPS: ", props)
-    console.log("AKAKFILES: ", props)
 
 	const handleSquareValueChange = (i, j, newValue) => {
 		props.onSquareValueChange(i, j, newValue);
@@ -14,14 +12,11 @@ const Board = (props) => {
 
 	const generateBoard = () => {
 		const board = [];
-        
-        // console.log("boardState", boardState.length)
 
 		for(let i=0; i<boardState.length; i++) {
 			let currRow = [];
 			for(let j=0; j<boardState[i].length; j++) {
                 const conflicts = props.conflicts;
-                // console.log("CONFLICTS: ", conflicts)
 				const conflict = conflicts.has(i+""+j) ? true: false
 				let currSquare = (
                     <Square
@@ -42,8 +37,6 @@ const Board = (props) => {
         
 		return board;
 	};
-
-    console.log(props);
 
     const board = generateBoard();
 

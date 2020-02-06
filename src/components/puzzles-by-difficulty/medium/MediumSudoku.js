@@ -30,9 +30,6 @@ const MediumSudoku = () => {
     const puzzle = await getRandomPuzzle();
     const formattedPuzzle = formatPuzzle(puzzle.sudoku); // changed puzzles to puzzle.sudoku
 
-    console.log("GBS in formatted puzzle", gameBoardState)
-    console.log("Loaded puzzle in formatted puzzle", puzzle)
-    console.log("formattedPuzzle  in formatted puzzle", formattedPuzzle);
       setGameBoardState({
         ...gameBoardState,
         puzzleId: puzzle.id,
@@ -42,19 +39,6 @@ const MediumSudoku = () => {
         original: puzzle.sudoku
       });
   };
-
-
-  // const [gameBoardState, setGameBoardState] = useState(
-  // {
-  //         boardState : getFormattedPuzzle(),
-  //         puzzleId: getPuzzle.id,
-  //         difficulty: getPuzzle.difficulty,
-  //         time: getPuzzle.time,
-  //         solvedPuzzleState: solvedPuzzle,
-  //         history   : [],
-  //         conflicts : new Set([])  
-  // });
-  // console.log("GBS in SUD", win)
 
   
   useEffect(() => {
@@ -75,7 +59,6 @@ const MediumSudoku = () => {
           cellId    : stringify(i, j),
           editable  : prevEditable
         };
-      console.log("newBoardState: ", prevState.newBoardState)
 
       // Now push the previous board state on the history stack
       const newHistory = getDeepCopyOfArray(prevState.history);
@@ -126,8 +109,6 @@ const MediumSudoku = () => {
   
   // saves sudoku state (data, diffuculty, time) to backend.
   const handleSaveClick = () => {
-
-    console.log(gameBoardState);
     
     const puzzleId = gameBoardState.puzzleId;
     
@@ -156,7 +137,6 @@ const MediumSudoku = () => {
     axiosWithAuth()
       .post(`/user-puzzles/${puzzleId}`, req)
       .then(res => {
-        console.log("REQ", res);
         alert('Puzzle saved');
     });
   };
@@ -174,7 +154,6 @@ const MediumSudoku = () => {
     // populating rows
     for(let i=0; i<boardState.length; i++) {
       rows[i] = getDeepCopyOfArray(boardState[i]);
-      // console.log("BOX ID: ", "boxId")
       
       for(let j=0; j<boardState[i].length;j++) {
         // populating columns
@@ -199,8 +178,6 @@ const MediumSudoku = () => {
     const colConflicts = flatten(getConflicts(Object.values(cols)));
     const boxConflicts = flatten(getConflicts(Object.values(boxes)));
     
-    // console.log("BOX CONFLICTS1: ", boxConflicts)
-    
     const mergedConflicts = [...rowConflicts, ...colConflicts, ...boxConflicts];
     setGameBoardState({...gameBoardState, conflicts: new Set(mergedConflicts)});
     
@@ -217,8 +194,6 @@ const MediumSudoku = () => {
     
     // activePuzzleString = single string represents current board state
     var activePuzzleString = playString.join(''); 
-    console.log("activePuzzleString", activePuzzleString);
-    console.log("WIN", win);
     
     if (mergedConflicts.length === 0){
       if (activePuzzleString === win){
